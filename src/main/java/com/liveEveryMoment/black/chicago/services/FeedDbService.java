@@ -13,7 +13,7 @@ public class FeedDbService {
 
     public FeedDbService() {}
 
-    public FeedResponseType retrieveFeed() {
+    public FeedResponseType retrieveFeed () {
 
         StringBuilder uriStringBuilder = new StringBuilder();
         uriStringBuilder.append("mongodb://")

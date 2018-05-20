@@ -3,17 +3,15 @@ package com.liveEveryMoment.black.chicago.models;
 public class EventModel {
 
     private final String eventName;
-    private final String date;
-    private final Integer startTime;
-    private final String location;
+    private final DateTime dateTime;
+    private final Venue venue;
     private final String eventImgUrl;
     private final String reservationLink;
 
-    public EventModel(String eventName, String date, Integer startTime, String location, String eventImgUrl, String reservationLink) {
+    public EventModel(String eventName, DateTime dateTime, Venue venue, String eventImgUrl, String reservationLink) {
         this.eventName = eventName;
-        this.date = date;
-        this.startTime = startTime;
-        this.location = location;
+        this.dateTime = dateTime;
+        this.venue = venue;
         this.eventImgUrl = eventImgUrl;
         this.reservationLink = reservationLink;
     }
@@ -22,16 +20,12 @@ public class EventModel {
         return eventName;
     }
 
-    public String getDate() {
-        return date;
+    public DateTime getDateTime() {
+        return dateTime;
     }
 
-    public Integer getStartTime() {
-        return startTime;
-    }
-
-    public String getLocation() {
-        return location;
+    public Venue getVenue() {
+        return venue;
     }
 
     public String getEventImgUrl() {

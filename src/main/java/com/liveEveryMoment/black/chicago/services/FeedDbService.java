@@ -1,5 +1,7 @@
 package com.liveEveryMoment.black.chicago.services;
 
+import com.google.gson.Gson;
+import com.liveEveryMoment.black.chicago.models.EventModel;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -22,14 +24,17 @@ public class FeedDbService {
     @Autowired
     private Environment environment;
 
-    public FeedDbService() {}
+    private final MongoCollection<Document> eventsTable;
 
-    public List<Document> retrieveFeed () {
+    public FeedDbService(Environment environment) {
         String mongoClientUriStr = environment.getProperty("mongodb.client.uri");
         MongoClientURI uri = new MongoClientURI(mongoClientUriStr);
         MongoClient client = new MongoClient(uri);
         MongoDatabase db = client.getDatabase(uri.getDatabase());
-        MongoCollection<Document> eventsTable = db.getCollection("UrbanEvents");
+        eventsTable = db.getCollection("UrbanEvents");
+    }
+
+    public List<Document> retrieveFeed () {
         List<Document> events = new ArrayList<>();
         MongoCursor<Document> cursor = eventsTable.find().sort(Sorts.ascending("dateTime.date")).iterator();
         try {
@@ -42,6 +47,17 @@ public class FeedDbService {
             cursor.close();
         }
         return events;
+    }
+
+    public void postEvent(EventModel eventModel) {
+        Gson gson = new Gson();
+        String eventJson = gson.toJson(eventModel);
+        Document newEvent = Document.parse(eventJson);
+        try {
+            eventsTable.insertOne(newEvent);
+        } catch (Exception e) {
+            LOGGER.warning("Something went wrong when trying to post event" + e.getMessage());
+        }
     }
 
 }

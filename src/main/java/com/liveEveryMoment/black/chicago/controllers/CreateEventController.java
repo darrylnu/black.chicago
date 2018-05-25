@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Controller
 @RequestMapping(path="/create")
@@ -44,10 +43,11 @@ public class CreateEventController {
                                                 @RequestParam(value = "startTime") String startTime,
                                                 @RequestParam(value = "endTime", required = false) String endTime,
                                                 @RequestParam(value = "imageUrl") String eventImgUrl,
-                                                @RequestParam(value = "reservationLink") String reservationLink) {
+                                                @RequestParam(value = "reservationLink") String reservationLink,
+                                                @RequestParam(value = "description", required = false) String description) {
         Venue venue = new Venue(venueName, city, state, streetAddress, zipCode);
         DateTime dateTime = new DateTime(date, startTime, endTime);
-        feedDbService.postEvent(new EventModel(eventName, dateTime, venue, eventImgUrl, reservationLink));
+        feedDbService.postEvent(new EventModel(eventName, dateTime, venue, eventImgUrl, reservationLink, description));
         return new ModelAndView("redirect:/feed");
     }
 }

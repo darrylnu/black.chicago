@@ -23,12 +23,13 @@ public class FeedResponseMapper {
             Venue venue = getVenue(event);
             String eventImgUrl =  event.getString("eventImgUrl");
             String reservationLink =  event.getString("reservationLink");
+            String description = event.getString("description");
             if (!StringUtils.isEmpty(eventName) && dateTime != null
                     && venue != null && !StringUtils.isEmpty(eventImgUrl) && !StringUtils.isEmpty(reservationLink)) {
-                EventModel eventModel = new EventModel(eventName, dateTime , venue, eventImgUrl, reservationLink);
+                EventModel eventModel = new EventModel(eventName, dateTime , venue, eventImgUrl, reservationLink, description);
                 eventModels.add(eventModel);
             } else {
-                LOGGER.warning(String.format("Null event field found: %s, %s, %s, %s, %s", eventName, dateTime, venue, eventImgUrl, reservationLink));
+                LOGGER.warning(String.format("Null event field found: %s, %s, %s, %s, %s", eventName, dateTime, venue, eventImgUrl, reservationLink, description));
             }
         }
         return eventModels;

@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path="/create")
 public class CreateEventController {
 
-
     @Autowired
     private FeedDbService feedDbService;
 
@@ -25,10 +24,11 @@ public class CreateEventController {
         this.feedDbService = feedDbService;
     }
 
-    @RequestMapping("/form")
+    @RequestMapping(value = "/form",method = RequestMethod.GET)
     public ModelAndView getCreationForm() {
         //links to form view
-        return new ModelAndView();
+        System.out.println("inside form body");
+        return new ModelAndView("form");
     }
 
     @RequestMapping(value = "/submitForm", method = {RequestMethod.POST, RequestMethod.GET})

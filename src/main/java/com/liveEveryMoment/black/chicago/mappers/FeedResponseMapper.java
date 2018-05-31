@@ -29,7 +29,7 @@ public class FeedResponseMapper {
                 EventModel eventModel = new EventModel(eventName, dateTime , venue, eventImgUrl, reservationLink, description);
                 eventModels.add(eventModel);
             } else {
-                LOGGER.warning(String.format("Null event field found: %s, %s, %s, %s, %s", eventName, dateTime, venue, eventImgUrl, reservationLink, description));
+                LOGGER.warning(String.format("Null event field found: %s, %s, %s, %s, %s, %s", eventName, dateTime, venue, eventImgUrl, reservationLink, description));
             }
         }
         return eventModels;

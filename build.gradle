@@ -14,6 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
 
 group = 'com.liveEveryMoment'
 version = '0.0.1-SNAPSHOT'
@@ -28,5 +29,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.mongodb:mongo-java-driver:3.6.0')
 	compile('com.google.code.gson:gson:2.8.4')
+    compile("org.springframework.boot:spring-boot-devtools")
+    providedCompile('javax.servlet:jstl')
+    providedRuntime ('org.apache.tomcat.embed:tomcat-embed-jasper')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

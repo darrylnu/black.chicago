@@ -8,11 +8,14 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
+import org.apache.catalina.connector.Response;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -49,15 +52,17 @@ public class FeedDbService {
         return events;
     }
 
-    public void postEvent(EventModel eventModel) {
+    public void postEvent(EventModel eventModel, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         String eventJson = gson.toJson(eventModel);
         Document newEvent = Document.parse(eventJson);
         try {
             eventsTable.insertOne(newEvent);
+            response.setStatus(Response.SC_ACCEPTED);
         } catch (Exception e) {
             LOGGER.warning("Something went wrong when trying to post event" + e.getMessage());
+            response.setStatus(Response.SC_BAD_REQUEST);
+            response.getWriter().write("Post unsuccessful: " + e.getMessage());
         }
     }
-
 }

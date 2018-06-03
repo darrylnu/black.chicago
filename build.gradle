@@ -29,8 +29,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.mongodb:mongo-java-driver:3.6.0')
 	compile('com.google.code.gson:gson:2.8.4')
-    compile("org.springframework.boot:spring-boot-devtools")
+    compile('org.springframework.boot:spring-boot-devtools')
+    providedCompile('javax.servlet:javax.servlet-api')
     providedCompile('javax.servlet:jstl')
-    providedRuntime ('org.apache.tomcat.embed:tomcat-embed-jasper')
+    compile ('org.apache.tomcat.embed:tomcat-embed-jasper')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

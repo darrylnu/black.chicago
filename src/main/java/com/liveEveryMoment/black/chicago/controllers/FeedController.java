@@ -37,7 +37,7 @@ public class FeedController {
         StringBuilder sb = new StringBuilder();
         for (EventModel event: eventModels) {
             sb.append("eventName: " + event.getEventName() + ", " +
-                    "date: " + event.getDateTime().getDate() + ", " +
+                    "date: " + event.getDateTime().getDateString() + ", " +
                     "startTime: " + event.getDateTime().getStartTime() + ", " +
                     "endTime: " + event.getDateTime().getEndTime() + ", " +
                     "venueName: " + event.getVenue().getName() + ", " +

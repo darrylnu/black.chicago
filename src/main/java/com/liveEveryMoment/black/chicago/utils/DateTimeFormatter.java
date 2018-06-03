@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -19,9 +20,30 @@ public class DateTimeFormatter {
             LOGGER.warning("Error parsing date: " + e.getMessage());
             return -1;
         }
-        String dateStr = Integer.toString(dateFromString.getMonth() + 1) + Integer.toString(dateFromString.getDay()) + Integer.toString(dateFromString.getYear());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateFromString);
+        String dayOfMonth = cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) : Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
+        String dateStr = Integer.toString(cal.get(Calendar.MONTH) + 1) + dayOfMonth + Integer.toString(cal.get(Calendar.YEAR));
         int formattedDateInt = Integer.parseInt(dateStr);
         return formattedDateInt;
+    }
+
+    public static String formatDateForModel(Integer date) {
+        String dateStr = date.toString();
+        if(dateStr.length() < 8) {
+            dateStr = "0" + dateStr;
+        }
+        Date originalFormattedDate;
+        try {
+            originalFormattedDate = new SimpleDateFormat("MMddyyyy").parse(dateStr);
+        } catch (ParseException e) {
+            LOGGER.warning("Error parsing date: " + e.getMessage());
+            return "";
+        }
+        SimpleDateFormat newFormatForDate = new SimpleDateFormat("MM-dd-yyyy");
+        String formattedDate = newFormatForDate.format(originalFormattedDate);
+        return formattedDate;
+
     }
 
     public static String getFormattedTime(String time) {

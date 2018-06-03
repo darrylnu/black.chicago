@@ -2,6 +2,7 @@ package com.liveEveryMoment.black.chicago.services;
 
 import com.google.gson.Gson;
 import com.liveEveryMoment.black.chicago.models.EventModel;
+import com.liveEveryMoment.black.chicago.utils.DateTimeFormatter;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -16,9 +17,13 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.gte;
 
 @Component
 public class FeedDbService {
@@ -39,7 +44,10 @@ public class FeedDbService {
 
     public List<Document> retrieveFeed () {
         List<Document> events = new ArrayList<>();
-        MongoCursor<Document> cursor = eventsTable.find().sort(Sorts.ascending("dateTime.date")).iterator();
+        MongoCursor<Document> cursor = eventsTable.find(
+                and(gte("dateTime.date", DateTimeFormatter.formatDateForDb(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())))))
+                .sort(Sorts.ascending("dateTime.date"))
+                .iterator();
         try {
             while (cursor.hasNext()) {
                 events.add(cursor.next());

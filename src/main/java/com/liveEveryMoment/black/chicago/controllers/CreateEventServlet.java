@@ -35,7 +35,7 @@ public class CreateEventServlet extends HttpServlet {
         String date = request.getParameter("date");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
-        String eventImgUrl = request.getParameter("eventImageUrl");
+        String eventImgUrl = request.getParameter("eventImgUrl");
         String reservationLink = request.getParameter("reservationLink");
         String description = request.getParameter("description");
 

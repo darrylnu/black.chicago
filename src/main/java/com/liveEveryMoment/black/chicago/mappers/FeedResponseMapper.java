@@ -3,6 +3,7 @@ package com.liveEveryMoment.black.chicago.mappers;
 import com.liveEveryMoment.black.chicago.models.DateTime;
 import com.liveEveryMoment.black.chicago.models.EventModel;
 import com.liveEveryMoment.black.chicago.models.Venue;
+import com.liveEveryMoment.black.chicago.utils.DateTimeFormatter;
 import org.bson.Document;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -41,7 +42,7 @@ public class FeedResponseMapper {
         String startTime = dateTime.getString("startTime");
         String endTime = dateTime.getString("endTime");
         if (date != -1 && !StringUtils.isEmpty(startTime)) {
-            return new DateTime(date, startTime, endTime);
+            return new DateTime(date,DateTimeFormatter.formatDateForModel(date), startTime, endTime);
         }
         return null;
     }

@@ -16,7 +16,7 @@
         State:<br>
         <input type="text" name="state" value="IL"><br><br>
         Zipcode:<br>
-        <input type="number" name="zipCode" minlength="5" maxlength="5"><br><br>
+        <input type="number" name="zipCode" maxlength="5"><br><br>
         Date:<br>
         <input type="date" name="date" required><br><br>
         Start Time:<br>

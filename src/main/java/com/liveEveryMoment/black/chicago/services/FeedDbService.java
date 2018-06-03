@@ -3,11 +3,14 @@ package com.liveEveryMoment.black.chicago.services;
 import com.google.gson.Gson;
 import com.liveEveryMoment.black.chicago.models.EventModel;
 import com.liveEveryMoment.black.chicago.utils.DateTimeFormatter;
+import com.mongodb.DuplicateKeyException;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Sorts;
 import org.apache.catalina.connector.Response;
 import org.bson.Document;
@@ -65,12 +68,17 @@ public class FeedDbService {
         String eventJson = gson.toJson(eventModel);
         Document newEvent = Document.parse(eventJson);
         try {
+            eventsTable.createIndex(new Document("eventName",1).append("dateTime.date", 1), new IndexOptions().unique(true));
             eventsTable.insertOne(newEvent);
             response.setStatus(Response.SC_ACCEPTED);
         } catch (Exception e) {
             LOGGER.warning("Something went wrong when trying to post event" + e.getMessage());
             response.setStatus(Response.SC_BAD_REQUEST);
-            response.getWriter().write("Post unsuccessful: " + e.getMessage());
+            if(e instanceof DuplicateKeyException || e instanceof MongoWriteException) {
+                response.getWriter().write("Duplicate entry found.");
+            } else {
+                response.getWriter().write("Exception thrown.");
+            }
         }
     }
 }
